@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ff4e8a, #ff99c8);
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    color: rgba(255,255,255,0.6);
+    font-size: 20px;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* Card */
+.card {
+    width: 90%;
+    max-width: 420px;
+    padding: 40px 25px;
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    text-align: center;
+    color: white;
+    animation: fadeIn 1s ease-in-out;
+}
+
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+}
+
+.buttons {
+    position: relative;
+    height: 120px;
+}
+
+button {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    position: absolute;
+}
+
+#yesBtn {
+    background: white;
+    color: #ff2e7a;
+    left: 20%;
+}
+
+#yesBtn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255,255,255,0.7);
+}
+
+#noBtn {
+    background: #ff2e7a;
+    color: white;
+    right: 20%;
+}
+
+/* Thank You Screen */
+.thankyou {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: white;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.big-heart {
+    font-size: 80px;
+    animation: heartbeat 1s infinite;
+}
+
+@keyframes heartbeat {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    h1 { font-size: 1.4rem; }
+    button { font-size: 14px; padding: 10px 20px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Floating Hearts Generator -->
+<script>
+for(let i=0;i<20;i++){
+    let heart = document.createElement("div");
+    heart.innerHTML = "💖";
+    heart.className = "heart";
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.fontSize = (15 + Math.random()*25) + "px";
+    heart.style.animationDuration = (4 + Math.random()*4) + "s";
+    document.body.appendChild(heart);
+}
+</script>
+
+<div class="card" id="mainCard">
+    <h1 id="question"></h1>
+    <div class="buttons">
+        <button id="yesBtn">Yes ❤️</button>
+        <button id="noBtn">No 💔</button>
+    </div>
+</div>
+
+<div class="thankyou" id="thankyouScreen">
+    <div class="big-heart">💘</div>
+    <h1 id="thankYouText"></h1>
+    <p style="margin-top:15px; font-weight:300;">You just made my day magical ✨</p>
+</div>
+
+<script>
+// Get names from URL
+const params = new URLSearchParams(window.location.search);
+const fromName = params.get("from") || "Your Love 💕";
+const toName = params.get("to") || "Hana";
+
+document.getElementById("question").innerText =
+`Hey ${toName} 💕, will you be my Valentine?\n- ${fromName}`;
+
+document.getElementById("thankYouText").innerText =
+`Thank you ${toName} for being my Valentine ❤️`;
+
+// YES click
+document.getElementById("yesBtn").addEventListener("click", () => {
+    document.getElementById("mainCard").style.display = "none";
+    document.getElementById("thankyouScreen").style.display = "flex";
+});
+
+// NO button escape
+const noBtn = document.getElementById("noBtn");
+
+function moveNo() {
+    const x = Math.random() * 60;
+    const y = Math.random() * 60;
+    noBtn.style.right = "auto";
+    noBtn.style.left = x + "%";
+    noBtn.style.top = y + "px";
+}
+
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("click", moveNo);
+</script>
+
+</body>
+</html>
